@@ -66,4 +66,11 @@ class Auth with ChangeNotifier {
     const urlSegment = 'signInWithPassword';
     return _authenticate(email, password, urlSegment);
   }
+
+  void logout() {
+    _token = null;
+    _userId = null;
+    _expiryDate = null;
+    notifyListeners();
+  }
 }

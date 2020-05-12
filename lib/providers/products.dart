@@ -40,10 +40,12 @@ class Products with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  Future<void> fetchAndSetProducts() async {
+  Future<void> fetchAndSetProducts([bool filterByUser = false]) async {
+    final filterString =
+        filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
     var url =
-        'https://antsrl-academy.firebaseio.com/products.json?auth=$authToken';
-
+        'https://antsrl-academy.firebaseio.com/products.json?auth=$authToken&$filterString';
+    print(filterString);
     try {
       final res = await http.get(url);
       final resBody = json.decode(res.body) as Map<String, dynamic>;
@@ -87,6 +89,7 @@ class Products with ChangeNotifier {
           'description': p.description,
           'imageUrl': p.imageUrl,
           'price': p.price,
+          'creatorId': userId
         }),
       );
 
